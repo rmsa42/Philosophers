@@ -1,62 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   phil_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 11:03:03 by rumachad          #+#    #+#             */
-/*   Updated: 2023/09/27 16:53:54 by rumachad         ###   ########.fr       */
+/*   Created: 2023/09/28 14:49:46 by rumachad          #+#    #+#             */
+/*   Updated: 2023/09/28 16:35:48 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
-int	ft_atoi(const char *str);
-
-void *mk_thread(void *arg)
+int	start_time(void)
 {
-	int *nbr;
-
-	nbr = (int *)arg;
-	printf("Thread Created: %d\n", *nbr);
-	return (NULL);
-}
-
-void *thread_init(pthread_t **test, int phil_nbr)
-{
-	int i;
-	int err;
-
-	i = 0;
-	err = 0;
-	*test = (pthread_t *)malloc(sizeof(pthread_t) * (phil_nbr));
-	if (*test == NULL)
-		return (NULL);
-    while (i < phil_nbr)
+	struct timeval time;
+	int				time_ml;
+	
+	if (gettimeofday(&time, NULL) != 0)
 	{
-		err = pthread_create(&(*test[i]), NULL, mk_thread, &i);
-		if (err)
-		{
-			printf("Error");
-			return (0);
-		}
-		pthread_join((*test[i]), NULL);
-		i++;
+		printf("Error");
+		exit(1);
 	}
-	return (NULL);
-}
-
-int main(int argc, char **av)
-{
-    pthread_t *test;
-	int phil_nbr;
-
-	if (argc != 2)
-		return (0);
-	phil_nbr = ft_atoi(av[1]);
-	thread_init(&test, phil_nbr);
-	return (0);
+	time_ml = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (time_ml);
 }
 
 int	ft_atoi(const char *str)
