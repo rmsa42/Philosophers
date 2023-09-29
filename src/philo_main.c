@@ -6,25 +6,26 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:52:01 by rumachad          #+#    #+#             */
-/*   Updated: 2023/09/28 16:50:24 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:19:44 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+int k = 1;
+
 void	*thread_start(void *arg)
 {
-	t_philo *philos;
+	t_philo *philo;
 
-	philos = (t_philo *)arg;
-	while (1)
-	{
-		
-	}
+	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->data.forks[philo->philo_id]);
+	printf("Phil %d\n", philo->philo_id);
+	pthread_mutex_unlock(&philo->data.forks[philo->philo_id]);
 	return (NULL);
 }
 
-void	*philos_init(t_philo_stats stats, int phil_nbr)
+void	*thread_init(t_philo_stats stats, int phil_nbr)
 {
 	int	i;
 
@@ -37,14 +38,9 @@ void	*philos_init(t_philo_stats stats, int phil_nbr)
 			printf("Error creating Thread\n");
 			exit(1);
 		}
-		stats.all[i].philo_id = i + 1;
 		i++;
 	}
-	if (pthread_create(&(stats.check_all), NULL, check_phil, &stats))
-	{
-		printf("Error creating Thread\n");
-		exit(1);
-	}
+	/* check_phil(&stats); */
 	i = 0;
 	while (i < phil_nbr)
 	{
@@ -55,12 +51,23 @@ void	*philos_init(t_philo_stats stats, int phil_nbr)
 		}
 		i++;
 	}
-	if (pthread_join(stats.check_all, NULL) != 0)
-	{
-		printf("Error creating Thread\n");
-		exit(1);
-	}
 	return (NULL);
+}
+
+void	philo_init(t_philo **philo, t_philo_stats *stats)
+{
+	int i;
+
+	i = 0;
+	*philo = malloc(sizeof(t_philo) * stats->nbr_phils);
+	while (i < stats->nbr_phils)
+	{
+		memset((void *)&(*philo)[i], 0, sizeof(t_philo));
+		pthread_mutex_init(&stats->forks[i], NULL);
+		(*philo)[i].philo_id = i + 1;
+		i++;
+	}
+	return ;
 }
 
 int main(int argc, char **av)
@@ -70,12 +77,12 @@ int main(int argc, char **av)
 
 	if (argc != 3)
 		return (0);
-	memset((void *)&stats, 0, sizeof(t_philo_stats));
+	philo = NULL;
 	stats.nbr_phils = ft_atoi(av[1]);
 	stats.time_to_die = ft_atoi(av[2]);
-	philo = malloc(sizeof(t_philo) * stats.nbr_phils);
+	stats.forks = malloc(sizeof(pthread_mutex_t) * stats.nbr_phils);
+	philo_init(&philo, &stats);
 	stats.all = philo;
-	philo->philo_id = 1;
-	philos_init(stats, stats.nbr_phils);
+	thread_init(stats, stats.nbr_phils);
 	return (0);
 }
