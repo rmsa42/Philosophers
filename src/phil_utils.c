@@ -6,16 +6,16 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:49:46 by rumachad          #+#    #+#             */
-/*   Updated: 2023/09/28 16:35:48 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:57:04 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int	start_time(void)
+long long	start_time(void)
 {
-	struct timeval time;
-	int				time_ml;
+	struct timeval	time;
+	long long		time_ml;
 	
 	if (gettimeofday(&time, NULL) != 0)
 	{
