@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:41:36 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/05 18:03:06 by rui              ###   ########.fr       */
+/*   Updated: 2023/10/06 17:08:31 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philo_stats
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			nbr_meals;
+	int			end;
 	long long	time_ms;     //Time threads start(in ms)
 	int			nbr_phils;
 	t_philo		*all;  		//pointer to all threads(philosophers)
@@ -47,6 +48,16 @@ long long	start_time(void);
 int	ft_atoi(const char *str);
 
 //Check_all Function
-int	check_phil(t_philo *philo);
+void	check_phil(t_philo_stats *data);
+
+//pthread_create call function
+void	*thread_start(void *arg);
+
+//Init Threads and Structs
+void	*thread_init(t_philo_stats *stats, int phil_nbr);
+void	philo_init(t_philo **philo, t_philo_stats *stats);
+
+//Destroy Mutex/Free functions
+void	destroy_mutex(t_philo_stats *stats);
 
 #endif
