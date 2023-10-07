@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:42:55 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/06 17:08:54 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:11:49 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_phil(t_philo_stats *data)
 	int			count;
 
 	count = 0;
-	while (!data->end)
+	while (!data->end && count != data->nbr_phils)
 	{
 		i = 0;
 		while (i < data->nbr_phils && !data->end)
@@ -34,8 +34,6 @@ void	check_phil(t_philo_stats *data)
 				count++;
 			i++;
 		}
-		if (count == data->nbr_phils)
-			break ;
 	}
 	return ;
 }
