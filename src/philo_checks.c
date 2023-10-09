@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:42:55 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/07 16:11:49 by rui              ###   ########.fr       */
+/*   Updated: 2023/10/09 16:11:42 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,20 @@ void	check_phil(t_philo_stats *data)
 		i = 0;
 		while (i < data->nbr_phils && !data->end)
 		{
+			pthread_mutex_lock(&data->last_eat_lock);
 			tmp = start_time() - data->all[i].last_eat;
+			pthread_mutex_unlock(&data->last_eat_lock);
 			if (tmp >= data->time_to_die)
 			{
-				printf("Philo %d died %lld\n", data->all[i].philo_id, tmp);
+				put_msg(&data->all[i], 'D');
+				pthread_mutex_lock(&data->philo_dead);
 				data->end = 1;
+				pthread_mutex_unlock(&data->philo_dead);
 			}
+			pthread_mutex_lock(&data->meals_nbr_lock);
 			if (data->all[i].meals_nbr == data->nbr_meals)
 				count++;
+			pthread_mutex_unlock(&data->meals_nbr_lock);
 			i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:43:18 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/06 12:43:23 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:03:18 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,23 @@ int	ft_atoi(const char *str)
 		return (0);
 	else
 		return (c * a);
+}
+
+void	put_msg(t_philo *philo, char c)
+{
+	long long	tmp;
+
+	tmp = start_time() - philo->data->time_ms;
+	if (c == 'L')
+		printf("%lld %d has taken a fork\n", tmp, philo->philo_id);
+	else if (c == 'R')
+		printf("%lld %d has taken a fork\n", tmp, philo->philo_id);
+	else if (c == 'E')
+		printf("%lld %d is eating\n", tmp, philo->philo_id);
+	else if (c == 'S')
+		printf("%lld %d is sleeping\n", tmp, philo->philo_id);
+	else if (c == 'T')
+		printf("%lld %d is thinking\n", tmp, philo->philo_id);
+	else if (c == 'D')
+		printf("%lld %d died\n", tmp, philo->philo_id);
 }

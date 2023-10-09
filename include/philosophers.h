@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:41:36 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/07 16:26:59 by rui              ###   ########.fr       */
+/*   Updated: 2023/10/09 18:21:50 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,15 @@ typedef struct s_philo_stats
 	int			nbr_phils;
 	t_philo		*all;  		//pointer to all threads(philosophers)
 	pthread_mutex_t *forks;
+	pthread_mutex_t	last_eat_lock;
+	pthread_mutex_t	meals_nbr_lock;
+	pthread_mutex_t	philo_dead;
 }			t_philo_stats;
 
 //Utils
 long long	start_time(void);
 int	ft_atoi(const char *str);
+void	put_msg(t_philo *philo, char c);
 
 //Check_all Function
 void	check_phil(t_philo_stats *data);

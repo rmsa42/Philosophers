@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:37:49 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/06 17:07:35 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:47:55 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@ void	*thread_init(t_philo_stats *stats, int phil_nbr)
 	stats->time_ms = start_time();
 	while (i < phil_nbr)
 	{
-		if (pthread_create(&(stats->all[i].thread_philo), NULL, thread_start, &(*stats).all[i]) != 0)
-		{
-			printf("Error creating Thread\n");
-			exit(1);
-		}
+		pthread_create(&(stats->all[i].thread_philo), NULL,
+						thread_start, &(*stats).all[i]);
 		i++;
 	}
 	check_phil(stats);
@@ -45,6 +42,9 @@ void	philo_init(t_philo **philo, t_philo_stats *stats)
 	i = 0;
 	*philo = (t_philo *)malloc(sizeof(t_philo) * stats->nbr_phils);
 	stats->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * stats->nbr_phils);
+	pthread_mutex_init(&stats->last_eat_lock, NULL);
+	pthread_mutex_init(&stats->meals_nbr_lock, NULL);
+	pthread_mutex_init(&stats->philo_dead, NULL);
 	while (i < stats->nbr_phils)
 	{
 		memset((void *)&(*philo)[i], 0, sizeof(t_philo));
