@@ -6,25 +6,25 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:37:49 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/09 17:47:55 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:42:21 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	*thread_init(t_philo_stats *stats, int phil_nbr)
+void	*thread_init(t_philo_stats *stats)
 {
 	int	i;
 
 	i = 0;
 	stats->time_ms = start_time();
-	while (i < phil_nbr)
+	while (i < stats->nbr_phils)
 	{
 		pthread_create(&(stats->all[i].thread_philo), NULL,
-						thread_start, &(*stats).all[i]);
+			thread_start, &(*stats).all[i]);
 		i++;
 	}
-	check_phil(stats);
+	philo_monitor(stats);
 	i = 0;
 	while (i < stats->nbr_phils)
 	{
@@ -37,11 +37,12 @@ void	*thread_init(t_philo_stats *stats, int phil_nbr)
 
 void	philo_init(t_philo **philo, t_philo_stats *stats)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	*philo = (t_philo *)malloc(sizeof(t_philo) * stats->nbr_phils);
-	stats->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * stats->nbr_phils);
+	stats->forks = (pthread_mutex_t *)
+		malloc(sizeof(pthread_mutex_t) * stats->nbr_phils);
 	pthread_mutex_init(&stats->last_eat_lock, NULL);
 	pthread_mutex_init(&stats->meals_nbr_lock, NULL);
 	pthread_mutex_init(&stats->philo_dead, NULL);
