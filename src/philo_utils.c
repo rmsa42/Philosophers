@@ -6,11 +6,11 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:43:18 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/10 12:51:59 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:38:48 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philosophers.h"
+#include "philosophers.h"
 
 long long	start_time(void)
 {
@@ -48,7 +48,7 @@ int	ft_atoi(const char *str)
 		c = (str[i] - '0') + (c * 10);
 		i++;
 	}
-	if ((c * a) > 2147483647 || (c * a) < -2147483648)
+	if ((c * a) > 2147483647 || (c * a) <= 0 || str[i] != '\0')
 		return (0);
 	else
 		return (c * a);
@@ -73,16 +73,26 @@ void	put_msg(t_philo *philo, char c)
 		printf("%lld %d died\n", tmp, philo->philo_id);
 }
 
-void	destroy_mutex(t_philo_stats *stats)
+void	destroy_mutex(t_global_var *stats, int flag)
 {
-	int	i;
-
-	i = 0;
-	free(stats->all);
-	while (i < stats->nbr_phils)
+	if (flag == 1)
 	{
-		pthread_mutex_destroy(&stats->forks[i]);
-		i++;
+		pthread_mutex_destroy(&stats->last_eat_lock);
+		printf("Error initiating mutex meals\n");
 	}
+	else if (flag == 2)
+	{
+		pthread_mutex_destroy(&stats->last_eat_lock);
+		pthread_mutex_destroy(&stats->meals_nbr_lock);
+		printf("Error initiating mutex philo_dead\n");
+	}
+	else if (flag == 3)
+	{
+		pthread_mutex_destroy(&stats->last_eat_lock);
+		pthread_mutex_destroy(&stats->meals_nbr_lock);
+		pthread_mutex_destroy(&stats->philo_dead);
+	}
+	pthread_mutex_destroy(stats->forks);
+	free(stats->all);
 	free(stats->forks);
 }
