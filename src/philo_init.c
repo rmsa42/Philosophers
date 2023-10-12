@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:37:49 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/11 16:37:04 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:10:34 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	stats_init(t_global_var *stats, char **av)
 		stats->nbr_meals = ft_atoi(av[5]);
 	else
 		stats->nbr_meals = -1;
-	if (stats->nbr_phils == 0 || stats->time_to_die == 0 ||
-		stats->time_to_eat == 0 || stats->time_to_sleep == 0 ||
-		stats->nbr_meals == 0)
-	{		
+	if (stats->nbr_phils == 0 || stats->time_to_die == 0
+		|| stats->time_to_eat == 0 || stats->time_to_sleep == 0
+		|| stats->nbr_meals == 0)
+	{
 		printf("Invalid Arguments\n");
 		return (1);
 	}
@@ -36,7 +36,7 @@ int	stats_init(t_global_var *stats, char **av)
 int	forks_init(t_global_var *stats)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < stats->nbr_phils)
 	{
@@ -94,5 +94,6 @@ int	philo_init(t_philo **philo, t_global_var *stats)
 		i++;
 	}
 	stats->all = *philo;
+	stats->all_ate = 0;
 	return (0);
 }

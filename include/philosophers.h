@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:41:36 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/11 16:38:02 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:16:35 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_global_var
 	int				end;
 	long long		time_ms;
 	int				nbr_phils;
+	int				all_ate;
 	t_philo			*all;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	last_eat_lock;

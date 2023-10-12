@@ -6,16 +6,16 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:13:51 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/11 16:44:00 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:42:11 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int join_threads(t_global_var *stats, int k, int flag)
+int	join_threads(t_global_var *stats, int k, int flag)
 {
 	int	i;
-	
+
 	i = 0;
 	if (flag == 1)
 		printf("Error creating threads\n");
@@ -24,7 +24,7 @@ int join_threads(t_global_var *stats, int k, int flag)
 		pthread_join(stats->all[i].thread_philo, NULL);
 		i++;
 	}
-    return (0);
+	return (0);
 }
 
 int	thread_init(t_global_var *stats)
@@ -37,7 +37,7 @@ int	thread_init(t_global_var *stats)
 	{
 		stats->all[i].last_eat = start_time();
 		if (pthread_create(&(stats->all[i].thread_philo), NULL,
-			thread_start, &(*stats).all[i]))
+				thread_start, &(*stats).all[i]))
 		{
 			join_threads(stats, i, 1);
 			destroy_mutex(stats, 3);
