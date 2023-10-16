@@ -6,47 +6,46 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:13:51 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/12 12:42:11 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:59:24 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	join_threads(t_global_var *stats, int k, int flag)
+int	join_threads(t_global_var *data)
 {
 	int	i;
 
 	i = 0;
-	if (flag == 1)
-		printf("Error creating threads\n");
-	while (i < k)
+	while (i < data->nbr_phils)
 	{
-		pthread_join(stats->all[i].thread_philo, NULL);
+		if (pthread_join(data->all[i].thread_philo, NULL))
+			return (-1);
 		i++;
 	}
 	return (0);
 }
 
-int	thread_init(t_global_var *stats)
+int	thread_init(t_global_var *data)
 {
 	int	i;
 
 	i = 0;
-	stats->time_ms = start_time();
-	while (i < stats->nbr_phils)
+	data->time_ms = start_time();
+	while (i < data->nbr_phils)
 	{
-		stats->all[i].last_eat = start_time();
-		if (pthread_create(&(stats->all[i].thread_philo), NULL,
-				thread_start, &(*stats).all[i]))
+		data->all[i].last_eat = start_time();
+		if (pthread_create(&(data->all[i].thread_philo), NULL,
+				thread_start, &data->all[i]))
 		{
-			join_threads(stats, i, 1);
-			destroy_mutex(stats, 3);
-			return (1);
+			clean_program(data, 3);
+			return (-1);
 		}
 		i++;
 	}
-	philo_monitor(stats);
-	join_threads(stats, stats->nbr_phils, 0);
-	destroy_mutex(stats, 3);
+	philo_monitor(data);
+	if (join_threads(data) == -1)
+		printf("Error Joining Threads\n");
+	clean_program(data, 3);
 	return (0);
 }

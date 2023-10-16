@@ -6,7 +6,7 @@
 #    By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/28 14:50:42 by rumachad          #+#    #+#              #
-#    Updated: 2023/10/11 17:00:21 by rumachad         ###   ########.fr        #
+#    Updated: 2023/10/16 17:13:18 by rumachad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,5 +32,3 @@ fclean: clean
 		rm -f philo.a philo
 
 re: fclean all
-
-.SILENT:

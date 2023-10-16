@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:43:18 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/11 16:38:48 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:19:45 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@ long long	start_time(void)
 	struct timeval	time;
 	long long		time_ml;
 
-	if (gettimeofday(&time, NULL) != 0)
-	{
-		printf("Error");
-		return (0);
-	}
+	gettimeofday(&time, NULL);
 	time_ml = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (time_ml);
 }
@@ -59,9 +55,7 @@ void	put_msg(t_philo *philo, char c)
 	long long	tmp;
 
 	tmp = start_time() - philo->data->time_ms;
-	if (c == 'L')
-		printf("%lld %d has taken a fork\n", tmp, philo->philo_id);
-	else if (c == 'R')
+	if (c == 'L' || c == 'R')
 		printf("%lld %d has taken a fork\n", tmp, philo->philo_id);
 	else if (c == 'E')
 		printf("%lld %d is eating\n", tmp, philo->philo_id);
@@ -73,7 +67,7 @@ void	put_msg(t_philo *philo, char c)
 		printf("%lld %d died\n", tmp, philo->philo_id);
 }
 
-void	destroy_mutex(t_global_var *stats, int flag)
+void	clean_program(t_global_var *stats, int flag)
 {
 	if (flag == 1)
 	{
@@ -92,7 +86,11 @@ void	destroy_mutex(t_global_var *stats, int flag)
 		pthread_mutex_destroy(&stats->meals_nbr_lock);
 		pthread_mutex_destroy(&stats->philo_dead);
 	}
-	pthread_mutex_destroy(stats->forks);
-	free(stats->all);
-	free(stats->forks);
+	if (stats->forks)
+	{
+		pthread_mutex_destroy(stats->forks);
+		free(stats->forks);
+	}
+	if (stats->all)
+		free(stats->all);
 }

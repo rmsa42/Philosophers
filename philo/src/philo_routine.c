@@ -6,11 +6,23 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:40:32 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/12 16:29:10 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:05:54 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	check_alive(t_global_var *data)
+{
+	pthread_mutex_lock(&data->philo_dead);
+	if (data->end == 1)
+	{
+		pthread_mutex_unlock(&data->philo_dead);
+		return (1);
+	}
+	pthread_mutex_unlock(&data->philo_dead);
+	return (0);
+}
 
 int	philo_take_forks(t_philo *philo)
 {
@@ -55,8 +67,6 @@ int	philo_eat(t_philo *philo)
 	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_lock(&philo->data->meals_nbr_lock);
 	philo->meals_nbr++;
-	if (philo->meals_nbr == philo->data->nbr_meals)
-		philo->data->all_ate++;
 	pthread_mutex_unlock(&philo->data->meals_nbr_lock);
 	pthread_mutex_unlock(&(philo->data->forks[philo->philo_id - 1]));
 	pthread_mutex_unlock(&(philo->data->forks
@@ -78,40 +88,23 @@ int	philo_think_sleep(t_philo *philo)
 	return (0);
 }
 
-void	one_philo(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->forks[0]);
-	put_msg(philo, 'L');
-	usleep(philo->data->time_to_die * 1000);
-	put_msg(philo, 'D');
-	pthread_mutex_unlock(&philo->data->forks[0]);
-}
-
 void	*thread_start(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->philo_id % 2)
-		usleep(philo->data->time_to_eat * 1000);
 	while (1)
 	{
-		if (philo->data->nbr_phils == 1)
-		{
-			one_philo(philo);
+		if (philo->philo_id % 2)
+			usleep(4000);
+		if (philo_take_forks(philo))
 			break ;
-		}
-		else
-		{
-			if (philo_take_forks(philo))
-				break ;
-			if (philo_eat(philo))
-				break ;
-			if (philo->data->nbr_meals == philo->meals_nbr)
-				break ;
-			if (philo_think_sleep(philo))
-				break ;
-		}
+		if (philo_eat(philo))
+			break ;
+		if (philo->data->nbr_meals == philo->meals_nbr)
+			break ;
+		if (philo_think_sleep(philo))
+			break ;
 	}
 	return (NULL);
 }
