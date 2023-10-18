@@ -6,12 +6,12 @@
 #    By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 12:13:08 by rumachad          #+#    #+#              #
-#    Updated: 2023/10/17 16:25:48 by rumachad         ###   ########.fr        #
+#    Updated: 2023/10/18 14:48:05 by rumachad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo_bonus
-SRC = src/main.c src/philo_utils_bonus.c
+SRC = src/main.c src/philo_utils_bonus.c src/philo_routine_bonus.c
 OBJS = ${SRC:.c=.o}
 CFLAGS = -Wall -Wextra -Werror -I include
 

@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:43:14 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/17 16:45:44 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:34:13 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philo
 	int						meals_nbr;
 	int						philo_full;
 	long long				last_eat;
+	struct s_global_var		*data;
 }				t_philo;
 
 typedef struct s_global_var
@@ -41,11 +42,18 @@ typedef struct s_global_var
 	long long		time_ms;
 	int				nbr_phils;
 	int				end;
+	pthread_t		monitor;
+	pid_t			*p;
+	sem_t			*sem1;
+	sem_t			*last_eat_sem;
 }			t_global_var;
 
 //Utils
 long long	start_time(void);
 int	ft_atoi(const char *str);
 void	put_msg(int philo_id, long long time, char c);
+
+//philo routine
+void	process_routine(t_philo *philo);
 
 #endif

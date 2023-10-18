@@ -6,13 +6,13 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:30 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/17 16:53:07 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:42:42 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
 
-void	close_processes(t_global_var *data, sem_t *se)
+void	close_processes(t_global_var *data)
 {
 	int	i;
 	int	status;
@@ -20,11 +20,21 @@ void	close_processes(t_global_var *data, sem_t *se)
 	i = 0;
 	while (i < data->nbr_phils)
 	{
+		printf("asds\n");
 		waitpid(-1, &status, 0);
+		if (status != 0)
+		{
+			i = 0;
+			while (i < data->nbr_phils)
+			{
+				kill(data->p[i], SIGKILL);
+				i++;
+			}
+		}
 		i++;
 	}
-	sem_unlink("fork");
-	sem_close(se);
+	sem_close(data->sem1);
+	sem_close(data->last_eat_sem);
 }
 
 int	data_init(t_global_var *data, char **av)
@@ -33,6 +43,9 @@ int	data_init(t_global_var *data, char **av)
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
+	data->p = (pid_t *)malloc(sizeof(pid_t) * data->nbr_phils);
+	if (data->p == NULL)
+	return (-1);
 	data->end = 0;
 	if (av[5])
 		data->nbr_meals = ft_atoi(av[5]);
@@ -48,10 +61,11 @@ int	data_init(t_global_var *data, char **av)
 	return (0);
 }
 
-void	init_processes(t_philo *philo, t_global_var *data, sem_t *se)
+
+
+void	init_processes(t_philo *philo, t_global_var *data)
 {
 	int		i;
-	pid_t	p;
 
 	i = 0;
 	data->time_ms = start_time();
@@ -59,18 +73,15 @@ void	init_processes(t_philo *philo, t_global_var *data, sem_t *se)
 	{
 		philo->philo_id = i + 1;
 		philo->last_eat = start_time();
-		p = fork();
-		if (p < 0)
+		data->p[i] = fork();
+		if (data->p[i] < 0)
 		{
 			printf("Error Creating Processes\n");
 			exit(EXIT_FAILURE);
 		}
-		if (p == 0)
+		if (data->p[i] == 0)
 		{
-			sem_wait(se);
-			put_msg(philo->philo_id, data->time_ms, 'L');
-			sleep(1);
-			sem_post(se);
+			process_routine(philo);
 			exit(EXIT_SUCCESS);
 		}
 		i++;
@@ -81,18 +92,22 @@ int main(int argc, char *av[])
 {
 	t_philo	philo;
 	t_global_var data;
-	sem_t *se;
 	
 	if (argc == 5 || argc == 6)
 	{
-		se = sem_open("fork", O_CREAT | O_EXCL, 00700, 1);
-		if (se == SEM_FAILED)
-			exit(EXIT_FAILURE);
-		memset((void *)&philo, 0, sizeof(t_philo));
 		memset((void *)&data, 0, sizeof(t_global_var));
-		data_init(&data, av);
-		init_processes(&philo, &data, se);
-		close_processes(&data, se);
+		memset((void *)&philo, 0, sizeof(t_philo));
+		philo.data = &data;
+		if (data_init(&data, av) == -1)
+			exit(EXIT_FAILURE);
+		sem_unlink("fork");
+		sem_unlink("last_eat");
+		data.sem1 = sem_open("fork", O_CREAT | O_EXCL, 0600, data.nbr_phils);
+		data.last_eat_sem = sem_open("last_eat", O_CREAT | O_EXCL, 0600, 1);
+		if (data.sem1 == SEM_FAILED)
+			exit(EXIT_FAILURE);
+		init_processes(&philo, &data);
+		close_processes(&data);
 	}
 	return (0);
 }
