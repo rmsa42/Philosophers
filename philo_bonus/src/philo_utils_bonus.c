@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:23:03 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/17 16:45:25 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:18:16 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,13 @@ void	put_msg(int philo_id, long long time, char c)
 		printf("%lld %d is thinking\n", tmp, philo_id);
 	else if (c == 'D')
 		printf("%lld %d died\n", tmp, philo_id);
+}
+
+void	clean_program(t_global_var *data)
+{
+	sem_close(data->forks_sem);
+	sem_close(data->last_eat_sem);
+	sem_close(data->death_sem);
+	sem_close(data->meals_sem);
+	free(data->pid);
 }

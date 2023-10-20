@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:43:18 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/16 15:19:45 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:37:42 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,30 @@ void	put_msg(t_philo *philo, char c)
 		printf("%lld %d died\n", tmp, philo->philo_id);
 }
 
-void	clean_program(t_global_var *stats, int flag)
+void	clean_program(t_global_var *data, int flag)
 {
 	if (flag == 1)
 	{
-		pthread_mutex_destroy(&stats->last_eat_lock);
+		pthread_mutex_destroy(&data->last_eat_lock);
 		printf("Error initiating mutex meals\n");
 	}
 	else if (flag == 2)
 	{
-		pthread_mutex_destroy(&stats->last_eat_lock);
-		pthread_mutex_destroy(&stats->meals_nbr_lock);
+		pthread_mutex_destroy(&data->last_eat_lock);
+		pthread_mutex_destroy(&data->meals_nbr_lock);
 		printf("Error initiating mutex philo_dead\n");
 	}
 	else if (flag == 3)
 	{
-		pthread_mutex_destroy(&stats->last_eat_lock);
-		pthread_mutex_destroy(&stats->meals_nbr_lock);
-		pthread_mutex_destroy(&stats->philo_dead);
+		pthread_mutex_destroy(&data->last_eat_lock);
+		pthread_mutex_destroy(&data->meals_nbr_lock);
+		pthread_mutex_destroy(&data->philo_dead);
 	}
-	if (stats->forks)
+	if (data->forks)
 	{
-		pthread_mutex_destroy(stats->forks);
-		free(stats->forks);
+		pthread_mutex_destroy(data->forks);
+		free(data->forks);
 	}
-	if (stats->all)
-		free(stats->all);
+	if (data->all)
+		free(data->all);
 }
