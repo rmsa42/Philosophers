@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:23:03 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 13:18:16 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:12:51 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,24 @@ int	ft_atoi(const char *str)
 		return (c * a);
 }
 
-void	put_msg(int philo_id, long long time, char c)
+void	put_msg(t_philo *philo, char c)
 {
 	long long	tmp;
 
-	tmp = start_time() - time;
+	tmp = start_time() - philo->data->time_ms;
+	sem_wait(philo->data->print_sem);
 	if (c == 'L' || c == 'R')
-		printf("%lld %d has taken a fork\n", tmp, philo_id);
+		printf("%lld %d has taken a fork\n", tmp, philo->philo_id);
 	else if (c == 'E')
-		printf("%lld %d is eating\n", tmp, philo_id);
+		printf("%lld %d is eating\n", tmp, philo->philo_id);
 	else if (c == 'S')
-		printf("%lld %d is sleeping\n", tmp, philo_id);
+		printf("%lld %d is sleeping\n", tmp, philo->philo_id);
 	else if (c == 'T')
-		printf("%lld %d is thinking\n", tmp, philo_id);
+		printf("%lld %d is thinking\n", tmp, philo->philo_id);
 	else if (c == 'D')
-		printf("%lld %d died\n", tmp, philo_id);
+		printf("%lld %d died\n", tmp, philo->philo_id);
+	if (c != 'D')
+		sem_post(philo->data->print_sem);
 }
 
 void	clean_program(t_global_var *data)
@@ -73,5 +76,6 @@ void	clean_program(t_global_var *data)
 	sem_close(data->last_eat_sem);
 	sem_close(data->death_sem);
 	sem_close(data->meals_sem);
+	sem_close(data->print_sem);
 	free(data->pid);
 }

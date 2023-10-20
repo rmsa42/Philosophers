@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:46:49 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 13:18:05 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:11:43 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_sem(t_global_var *data)
 	sem_unlink("last_eat");
 	sem_unlink("death");
 	sem_unlink("meals");
+	sem_unlink("print");
 	data->forks_sem = sem_open("forks", O_CREAT | O_EXCL, 0600, data->nbr_phils);
 	if (data->forks_sem == SEM_FAILED)
 		exit(EXIT_FAILURE);
@@ -53,5 +54,8 @@ void	init_sem(t_global_var *data)
 		exit(EXIT_FAILURE);
 	data->meals_sem = sem_open("meals", O_CREAT | O_EXCL, 0600, 1);
 	if (data->meals_sem == SEM_FAILED)
+		exit(EXIT_FAILURE);
+	data->print_sem = sem_open("print", O_CREAT | O_EXCL, 0600, 1);
+	if (data->print_sem == SEM_FAILED)
 		exit(EXIT_FAILURE);
 }

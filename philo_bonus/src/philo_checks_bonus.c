@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 11:03:42 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 13:33:42 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:40:10 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	*monitoring(void *arg)
 		sem_post(philo->data->last_eat_sem);
 		if (tmp >= philo->data->time_to_die)
 		{
-			sem_wait(philo->data->death_sem);
-			philo->data->end = 1;
-			put_msg(philo->philo_id, philo->data->time_ms, 'D');
-			/* sem_post(philo->data->death_sem); */
+			put_msg(philo, 'D');
 			exit(EXIT_FAILURE);
 		}
 		sem_wait(philo->data->meals_sem);

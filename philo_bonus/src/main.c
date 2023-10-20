@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:30 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 13:36:55 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:13:32 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	init_processes(t_philo *philo, t_global_var *data)
 		}
 		if (data->pid[i] == 0)
 			process_routine(philo);
-		usleep(1000);
 		i++;
 	}
 }
