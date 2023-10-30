@@ -6,22 +6,21 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:27:38 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 15:40:49 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:36:54 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
 
-int	grab_forks(t_philo *philo)
+void	grab_forks(t_philo *philo)
 {
 	sem_wait(philo->data->forks_sem);
 	put_msg(philo, 'L');
 	sem_wait(philo->data->forks_sem);
 	put_msg(philo, 'R');
-	return (0);
 }
 
-int	philo_eat(t_philo *philo)
+void	philo_eat(t_philo *philo)
 {
 	put_msg(philo, 'E');
 	sem_wait(philo->data->last_eat_sem);
@@ -33,16 +32,13 @@ int	philo_eat(t_philo *philo)
 	sem_post(philo->data->meals_sem);
 	sem_post(philo->data->forks_sem);
 	sem_post(philo->data->forks_sem);
-	return (0);
 }
 
-int	philo_sleep_think(t_philo *philo)
+void	philo_sleep_think(t_philo *philo)
 {
 	put_msg(philo, 'S');
 	usleep(philo->data->time_to_sleep * 1000);
-	usleep(1000);
 	put_msg(philo, 'T');
-	return (0);
 }
 
 int	philo_full(t_philo *philo)
@@ -61,17 +57,23 @@ void	process_routine(t_philo *philo)
 {
 	if (pthread_create(&(philo->data->monitor), NULL,
 			&monitoring, philo))
-		printf("Error\n");   //Change
-	pthread_detach(philo->data->monitor);
+	{
+		printf("Error creatig thread\n");
+		exit(EXIT_FAILURE);
+	}
+	if (pthread_detach(philo->data->monitor))
+	{
+		printf("Error in pthread_detach\n");
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
-		if (grab_forks(philo))
-			break ;
-		if (philo_eat(philo))
-			break ;
+		if (philo->philo_id % 2)
+			usleep(4000);
+		grab_forks(philo);
+		philo_eat(philo);
 		if (philo_full(philo))
-			break ;
-		if (philo_sleep_think(philo))
-			break ;
+			exit(EXIT_SUCCESS);
+		philo_sleep_think(philo);
 	}
 }

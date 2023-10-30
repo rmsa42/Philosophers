@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:23:03 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 15:12:51 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:57:23 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,13 @@ void	put_msg(t_philo *philo, char c)
 
 void	clean_program(t_global_var *data)
 {
-	sem_close(data->forks_sem);
-	sem_close(data->last_eat_sem);
-	sem_close(data->death_sem);
-	sem_close(data->meals_sem);
-	sem_close(data->print_sem);
+	if (sem_close(data->forks_sem))
+		exit(EXIT_FAILURE);
+	if (sem_close(data->last_eat_sem))
+		exit(EXIT_FAILURE);
+	if (sem_close(data->meals_sem))
+		exit(EXIT_FAILURE);
+	if (sem_close(data->print_sem))
+		exit(EXIT_FAILURE);
 	free(data->pid);
 }

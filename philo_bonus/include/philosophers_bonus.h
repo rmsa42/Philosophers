@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:43:14 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/20 15:12:04 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:14:09 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_global_var
 	pid_t			*pid;
 	sem_t			*forks_sem;
 	sem_t			*last_eat_sem;
-	sem_t			*death_sem;
 	sem_t			*meals_sem;
 	sem_t			*print_sem;
 }			t_global_var;
@@ -62,7 +61,6 @@ void		process_routine(t_philo *philo);
 
 //Checks
 int			check_alive(t_global_var *data);
-void		kill_dead(t_philo *philo);
 void		*monitoring(void *arg);
 
 //Init
