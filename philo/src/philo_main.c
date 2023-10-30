@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:52:01 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/16 17:05:34 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:56:32 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	main(int argc, char **av)
 
 	if (argc == 5 || argc == 6)
 	{
-		philo = NULL;
 		if (data_init(&data, av) == -1)
 			return (-1);
 		if (philo_init(&philo, &data) == -1)
@@ -70,5 +69,7 @@ int	main(int argc, char **av)
 			return (-1);
 		}
 	}
+	else
+		printf("Invalid number of arguments\n");
 	return (0);
 }
