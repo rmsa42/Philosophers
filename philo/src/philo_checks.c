@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:42:55 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/16 17:05:48 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:08:04 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	philo_monitor(t_global_var *data)
 		i = 0;
 		if (check_philo(data, &i))
 			break ;
-		if (data->nbr_meals != -1
+		if (data->nbr_meals != -2
 			&& check_all_ate(data) == data->nbr_phils)
 		{
 			printf("ALL PHILOSOPHERS ATE\n");

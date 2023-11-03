@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:28:55 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/30 15:15:40 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:12:57 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*monitoring(void *arg)
 			put_msg(philo, 'D');
 			exit(EXIT_FAILURE);
 		}
-		if (philo->data->nbr_meals != -1)
+		if (philo->data->nbr_meals != -2)
 		{
 			if (meals_check(philo))
 				break ;

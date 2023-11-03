@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:40:32 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/16 17:05:54 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/11/02 10:52:54 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,13 @@ void	*thread_start(void *arg)
 			break ;
 		if (philo_eat(philo))
 			break ;
+		pthread_mutex_lock(&philo->data->meals_nbr_lock);
 		if (philo->data->nbr_meals == philo->meals_nbr)
+		{
+			pthread_mutex_unlock(&philo->data->meals_nbr_lock);
 			break ;
+		}
+		pthread_mutex_unlock(&philo->data->meals_nbr_lock);
 		if (philo_think_sleep(philo))
 			break ;
 	}

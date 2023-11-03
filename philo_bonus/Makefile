@@ -6,7 +6,7 @@
 #    By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 12:13:08 by rumachad          #+#    #+#              #
-#    Updated: 2023/10/30 16:08:58 by rumachad         ###   ########.fr        #
+#    Updated: 2023/11/02 11:32:08 by rumachad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo_bonus
 SRC = src/philo_main_bonus.c src/philo_utils_bonus.c src/philo_routine_bonus.c \
 		src/init_bonus.c
 OBJS = ${SRC:.c=.o}
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -I include
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -I include
 
 %.o:	%.c
 		cc ${CFLAGS} -c $< -o $@

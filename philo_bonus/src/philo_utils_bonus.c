@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:23:03 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/30 14:57:23 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:24:46 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if ((c * a) > 2147483647 || (c * a) <= 0 || str[i] != '\0')
-		return (0);
+		return (-1);
 	else
 		return (c * a);
 }

@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:37:49 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/16 16:39:01 by rumachad         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:23:40 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	data_init(t_global_var *data, char **av)
 	if (av[5])
 		data->nbr_meals = ft_atoi(av[5]);
 	else
-		data->nbr_meals = -1;
-	if (data->nbr_phils == 0 || data->time_to_die == 0
-		|| data->time_to_eat == 0 || data->time_to_sleep == 0
-		|| data->nbr_meals == 0)
+		data->nbr_meals = -2;
+	if (data->nbr_phils < 0 || data->time_to_die < 0
+		|| data->time_to_eat < 0 || data->time_to_sleep < 0
+		|| data->nbr_meals == -1)
 	{
 		printf("Invalid Arguments\n");
 		return (-1);
