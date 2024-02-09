@@ -3,9 +3,9 @@ This 42 project challenges us to create a multi-threaded program in C.
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Project Structure](#project-structure)
-3. [Dependencies](#dependencies)
-4. [About Threads/Mutex](#about-threads/mutex)
+2. [Threads vs Processes](#threads-vs-processes)
+3. [Project Structure](#project-structure)
+4. [Dependencies](#dependencies)
 5. [How to Use](#how-to-use)
 6. [Code Example](#code-example)
 7. [Bonus](#bonus)
@@ -53,6 +53,31 @@ with a mutex for each of them.
 - A message announcing a philosopher died should be displayed no more than 10 ms after the actual death of the philosopher.
 - Your program must not have any data races.
 
+## Threads vs Processes
+
+### What's a Thread?
+A thread is the smallest unit of execution within a process. Threads within the same process share the same memory space and resources, allowing them to communicate more easily.
+
+### What's a Process?
+A process is an independent program or instance of a program that runs in its own memory space and has its own set of system resources. Processes are isolated from each other.
+
+### Differences between Threads and Processes
+Main differences:
+1. Memory space
+    - Threads within the same process share the same memory space, meaning a thread can modify the same data of another thread
+    - Process have their own memory space, meaning that any change in one process doesn't affect another processes.
+2. Isolation
+    - Threads within the same process are not isolated from each other, meaning if one thread crashes it can affect all the threads.
+    - Processes are isolated from each other, meaning if a process crashes it doesn't affect the others processes.
+3. Communication
+    - Threads can comunicate through shared memory. This requires careful synchronization to avoid race conditions.
+    - Process can comunicate via pipes.
+
+### Mutex and Semaphore
+A [mutex](https://en.wikipedia.org/wiki/Mutual_exclusion) is a protection to the shared memory between threads to avoid race conditions. The `mutex` prevents multiple threads from accessing the same data simultaneously.
+
+A [semaphore](https://en.wikipedia.org/wiki/Semaphore_(programming)) is the same as `mutex` but for processes instead.
+
 ## Project Structure
 - `philo/`: Main directory contaning all the directories.
 - `philo_bonus/`: Main directory contaning all the directories for the bonus part.
@@ -69,7 +94,7 @@ Inside the both directories:
 1. Clone the repository.
 2. Navigate to the `philo` directory: `cd philo`.
 3. Compile the program: `make`.
-4. Run the `philo` binary: `./philo nbr_philosophers time_to_die time_to_eat time_to_sleep`.
+4. Run the `philo` binary: `./philo nbr_philosophers time_to_die time_to_eat time_to_sleep [nbr_of_meals]`.
 
 ## Code Example
 In this example the program runs indefinitely
@@ -103,6 +128,9 @@ In this example the program runs indefinitely
 ```
 
 ## Bonus
+The bonus part for this project challenges us to make the same program but, now, the philosophers are processes instead of threads.
+
+This means that we don't share memory anymore, because every process has its own memory, and instead of `mutex` we need to use `semaphore` functions. This functions do the same thing a mutex does but for processes instead. (About [semaphore.h](https://pubs.opengroup.org/onlinepubs/7908799/xsh/semaphore.h.html))
 
 ## Contributing
 I welcome contributions. If you have any bug fix or improvement, feel free to submit a pull request on the repository.
