@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:37:49 by rumachad          #+#    #+#             */
-/*   Updated: 2023/11/02 11:23:40 by rumachad         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:24:31 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	mutex_init(t_global_var *data)
 		clean_program(data, 2);
 		return (-1);
 	}
+	pthread_mutex_init(&data->print, NULL);
 	return (0);
 }
 

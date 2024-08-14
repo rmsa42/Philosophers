@@ -6,7 +6,7 @@
 /*   By: rumachad <rumachad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:41:36 by rumachad          #+#    #+#             */
-/*   Updated: 2023/10/16 17:06:03 by rumachad         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:24:01 by rumachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_global_var
 	pthread_mutex_t	last_eat_lock;
 	pthread_mutex_t	meals_nbr_lock;
 	pthread_mutex_t	philo_dead;
+	pthread_mutex_t print;
 }			t_global_var;
 
 //Utils
